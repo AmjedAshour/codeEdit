@@ -4,7 +4,7 @@ This is a simple chat application built using Flask and Flask-SocketIO. It allow
 >[!NOTE]
 This project is for me to have a better understanding of how Sockets work.
 >[!WARNING]
->This is not a product and should not be used in a production environment as it lacks proper security measures and is not yet scalable.
+This is not a product and should not be used in a production environment as it lacks proper security measures and is not yet scalable.
 
 ## Table of Contents
 
