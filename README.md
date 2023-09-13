@@ -3,6 +3,7 @@
 This is a simple chat application built using Flask and Flask-SocketIO. It allows users to log in, chat in different rooms, and collaborate on code in real-time.
 >[!NOTE]
 This project is for me to have a better understanding of how Sockets work.
+
 >[!WARNING]
 This is not a product and should not be used in a production environment as it lacks proper security measures and is not yet scalable.
 
