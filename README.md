@@ -24,7 +24,7 @@ This project is for me to have a better understanding of how Sockets work.
 ## Work In Progress (WIP)
 - Ability to retrieve old coding sessions.
 - Invite link to a specific code session.
-- sign up page.
+- Sign up page.
 - Code highlighting and name over cursor.
 - "Who's Connected" feature.
 - Dark mode.
