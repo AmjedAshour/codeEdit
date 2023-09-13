@@ -21,7 +21,7 @@ This project is for me to have a better understanding of how Sockets work.
 - Real-time code collaboration: Users can edit code in real-time with other users.
 - Multi-language support: Users can choose their preferred coding language.
 
-## WIP
+## Work In Progress (WIP)
 - Ability to retrieve old coding sessions.
 - Invite link to a specific code session.
 - sign up page.
@@ -46,7 +46,7 @@ Before you begin, ensure you have met the following requirements:
    ```shell
    git clone https://github.com/AmjedAshour/codeEdit.git
    ```
-2. Navigate to the project directory:
+2. Navigate to the project directory by running the following command, replacing project/directory with the actual path to your project folder:
     ```shell
     cd project/directory
     ```
