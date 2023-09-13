@@ -1,0 +1,258 @@
+:root{
+    --background : #fafafa;
+    --primary : #636660;
+    --text: #050505;
+    --secondary: #cbcace;
+    --accent: #676369;
+    --text-alt: #f5f5f5;
+}
+*{
+    border-radius: 0.25rem;
+
+    font-family: 'Roboto', sans-serif;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background:var(--secondary);
+    color: var(--text);
+}
+.container{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    margin: 0;
+}
+.chat{
+    position: relative;
+    display: flex;
+    flex-direction:column ;
+    width: 25%;
+    height: 97.5%;
+    margin: 0.5rem 0 0.5rem 0.5rem;
+    flex: 1;
+    background:var(--secondary);
+
+}
+
+.chat__header{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    padding: 0 0 0 0.5rem;
+    width: 100%;
+    height: 7.5vh;
+    border: 1px solid black;
+    box-sizing: border-box;
+    background: var(--background);
+    margin: 0 0 0.125rem 0;
+}
+.langs{
+    position: relative;
+    display: block;
+    width: 50%;
+    height: 2rem;
+    outline: none;
+    box-sizing: border-box;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.chat__box{
+    position: relative;
+    display: block;
+    height: 85vh;
+    width: 100%;
+    overflow-y: hidden;
+    border: 1px solid var(--primary);
+    background: var(--background);
+    box-sizing: border-box;
+    margin: 0 0 0.125rem 0;
+
+}
+.chat__footer{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 8vh;
+    bottom: 0;
+    background: var(--secondary);
+}
+.chat__footer textarea{
+    min-width:85%;
+    max-width: 85%;
+    width: fit-content;
+    height: 100%;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px solid var(--primary);
+    overflow: hidden;
+    white-space: normal;
+    resize: none;
+}
+
+.chat__box ::-webkit-scrollbar{
+    width: 0.5rem;
+}
+.chat__box ::-webkit-scrollbar-track{
+    background: var(--background);
+}
+.chat__box ::-webkit-scrollbar-thumb{
+    background: var(--background);
+}
+.chat__footer button{
+    width: 15%;
+    height: 100%;
+    box-sizing: border-box;
+    background: var(--primary);
+    color: var(--text-alt);
+    border: 1px solid var(--primary);
+    margin: 0 0  0  0.125rem ;
+}
+.chat__box .typing{
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 1rem;
+    opacity: 0.75;
+    background: var(--background);
+    bottom: 0;
+    color: black;
+    box-sizing: border-box;
+    padding: 0 0 0 0.25rem;
+}
+.chat__box .typing p{
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-size: 0.75rem;
+    text-align: left;
+}
+.chat__box ul{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.li-left{
+    position: relative;
+    width: 60%;
+    height: fit-content;
+    min-height: 6vh;
+    border: 1px solid var(--primary);
+    padding: 0.25rem;
+    overflow: hidden;
+    margin: 0.5rem 0 0 0.25rem;
+    background:#494949 ;
+    color: var(--text-alt);
+
+}
+.li-right{
+    position: relative;
+    width: 60%;
+    height: fit-content;
+    min-height: 6vh;
+    border: 1px solid var(--primary);
+    padding: 0.25rem;
+    overflow: hidden;
+    margin: 0.5rem 0 0 0.25rem;
+    background:#333333 ;
+    left: 60%;
+    transform: translateX(-40%);
+    color: var(--text-alt);
+}
+.chat__box span{
+    position: relative;
+    display: block;
+    width: 100%;
+    height: fit-content;
+    padding: 0;
+    margin: 0 0 0.25rem 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-all;
+    opacity: 0.75;
+    font-size: 0.75rem;
+}
+
+.code{
+    position: relative;
+    display: flex;
+    flex-direction:column ;
+    width: 75%;
+    height: 97.7%;
+    margin: 0.5rem 0 0.5rem 0.5rem;
+    top: 0;
+    flex: 3;
+    padding: 0;
+    box-sizing: unset;
+}
+
+.editor{
+    position: relative;
+    display: block;
+    width: 97.5%; 
+    height: 100%;
+    padding: 1rem 0 1rem 0.5rem;
+    margin: auto auto auto 0.25rem;
+    resize: none;
+    border: 1px solid var(--primary);
+    outline: none;
+}
+.login{
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30vw;
+    height: 30vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 1px solid black;
+}
+.login form{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0 0 0.5rem 0;
+    box-sizing: border-box;
+}
+.login form input{
+    position: relative;
+    display: block;
+    width: 50%;
+    height: 2rem;
+    padding: 5px;
+    margin: 0.5rem 0 0 0;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px solid var(--primary);
+    background: var(--background);
+    color: var(--text);
+}

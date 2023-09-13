@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" data-name="vs/editor/editor.main"
+        href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/editor/editor.main.min.css"
+        integrity="sha512-MFDhxgOYIqLdcYTXw7en/n5BshKoduTitYmX8TkQ+iJOGjrWusRi8+KmfZOrgaDrCjZSotH2d1U1e/Z1KT6nWw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>editor</title>
+</head>
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+    integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+    crossorigin="anonymous"></script>
+
+
+<body>
+    <script>
+        var require = { paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs' } }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/loader.min.js"
+        integrity="sha512-A+6SvPGkIN9Rf0mUXmW4xh7rDvALXf/f0VtOUiHlDUSPknu2kcfz1KzLpOJyL2pO+nZS13hhIjLqVgiQExLJrw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/editor/editor.main.nls.min.js"
+        integrity="sha512-vnssBu7J9xx5K5e/5HUOF49VAZwEBgZlPStezXzkSJFUU3G/bUBqTqSphzVNBWFQyVWU06HBWQ4eNVP8y+qm5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/editor/editor.main.js"
+        integrity="sha512-WL2JAtyfvE2gMXvSnpnaVMNzGaIkDPvWbMRsGZ+hNjlbSNdb9C3vkdi7nHonCr/GBv2IFdhsl1GUfSntMLcbFA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <div class="container">
+        <div class="chat">
+            <div class="chat__header">
+                {% for user in username %}
+                <h1 class="chat__title">{{ user }}</h1>
+                {% endfor %}
+                <select name="langs" id="langs" class="langs">
+                    <option value=" "> </option>
+                    <option value="plaintext">Plain Text</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">Javascript</option>
+                    <option value="c">C</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                    <option value="csharp">C#</option>
+                    <option value="go">Go</option>
+                    <option value="php">PHP</option>
+                    <option value="ruby">Ruby</option>
+                    <option value="rust">Rust</option>
+                    <option value="typescript">Typescript</option>
+                </select>
+            </div>
+            <div class="chat__box">
+                <ul id="chatUl"></ul>
+                <div class="typing">
+                    <p id="spanTyping"></p>
+                </div>
+            </div>
+            <div class="chat__footer">
+                <textarea type="text"></textarea>
+                <button id="send">Send</button>
+            </div>
+        </div>
+        <div class="code" id="code"></div>
+    </div>
+</body>
+<script>
+    var socket = io.connect();
+    var editor = document.getElementById('code');
+
+    socket.on('connect', function (data) {
+        editor.id = editor.id + '-' + socket.id;
+        editorCodeBlock.setValue(data.code);
+        document.getElementById('langs').value = data.language;
+        monaco.editor.setModelLanguage(editorCodeBlock.getModel(), data.language);
+        console.log(data.language)
+    });
+
+    var langs = document.getElementById('langs');
+    langs.addEventListener('change', function (e) {
+        var lang = langs.value;
+        monaco.editor.setModelLanguage(editorCodeBlock.getModel(), lang);
+        socket.emit('lang', lang);
+    });
+
+    socket.on('lang', function (data) {
+        langs.value = data;
+        monaco.editor.setModelLanguage(editorCodeBlock.getModel(), data);
+    })
+
+    var codeContent = $.trim($('#code').text());
+    var editorCodeBlock = monaco.editor.create(document.getElementById('code'), {
+        value: codeContent,
+        language: langs.value,
+        theme: "vs",
+        lineNumbers: 'on',
+        glyphMargin: false,
+        vertical: 'auto',
+        horizontal: 'auto',
+        verticalScrollbarSize: 10,
+        horizontalScrollbarSize: 10,
+        scrollBeyondLastLine: false,
+        readOnly: false,
+        automaticLayout: true,
+        minimap: {
+            enabled: false
+        },
+        lineHeight: 19,
+    });
+    $("#code").height('97.5%');
+
+    var isProgrammaticChange = false;
+
+    editorCodeBlock.onDidChangeModelContent(function (e) {
+        if (!isProgrammaticChange) {
+            var changedText = editorCodeBlock.getValue();
+            var userID = socket.id;
+            socket.emit('change', changedText, userID);
+        }
+        isProgrammaticChange = false;
+    });
+
+
+    socket.on('change', function (data) {
+        if (data.userID === socket.id) return;
+        isProgrammaticChange = true;
+        editorCodeBlock.setValue(data.text);
+    });
+
+    var send = document.getElementById('send');
+    var chatUl = document.getElementById('chatUl');
+    var chatInput = document.querySelector('.chat__footer textarea');
+
+    send.addEventListener('click', function (e) {
+        var chatText = chatInput.value;
+        var userID = socket.id;
+        socket.emit('chat', chatText, userID);
+        chatInput.value = '';
+    });
+    socket.on('chat', function (data) {
+        var span = document.createElement('span');
+        var li = document.createElement('li');
+        li.innerHTML = data.chat.replace(/\n/g, '<br>');
+        span.innerHTML = data.userID;
+        li.insertAdjacentElement('afterbegin', span);
+        chatUl.appendChild(li);
+        if (data.userID == socket.id) {
+            li.classList.add('li-left');
+        }
+        else {
+            li.classList.add('li-right');
+        };
+    })
+
+    chatInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            if (!e.shiftKey) {
+                e.preventDefault();
+                var chatText = chatInput.value;
+                var userID = socket.id;
+                socket.emit('chat', chatText, userID);
+                chatInput.value = '';
+            }
+        }
+    });
+    let timer;
+    chatInput.addEventListener('keydown', () => {
+        clearTimeout(timer);
+        if (chatInput.value !== '') {
+            socket.emit('typing', socket.id);
+        } else {
+            document.getElementById('spanTyping').textContent = '';
+        }
+    });
+
+    socket.on('typing', (data) => {
+        if (data !== socket.id) {
+            document.getElementById('spanTyping').textContent = data + ' is typing...';
+        }
+        timer = setTimeout(() => {
+            document.getElementById('spanTyping').textContent = '';
+        }, 3000);
+    });
+
+</script>
+
+</html>
