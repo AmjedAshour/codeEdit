@@ -26,6 +26,7 @@ This is not a product and should not be used in a production environment as it l
 
 ## Work In Progress (WIP)
 - Ability to retrieve old coding sessions.
+- Room ownership and control.
 - Invite link to a specific code session.
 - Sign up page.
 - Code highlighting and name over cursor.
